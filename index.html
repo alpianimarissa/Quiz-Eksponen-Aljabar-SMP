@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Interaktif Eksponen - 30 Soal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax for rendering LaTeX mathematical equations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-btn.answered-correct {
+            background-color: #10b981 !important;
+            color: white !important;
+            border-color: #059669 !important;
+        }
+        .nav-btn.answered-wrong {
+            background-color: #ef4444 !important;
+            color: white !important;
+            border-color: #dc2626 !important;
+        }
+        .nav-btn.active-question {
+            ring: 3px;
+            ring-color: #6366f1;
+            font-weight: 800;
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-square-root-variable text-yellow-400 text-2xl"></i>
+                <div>
+                    <h1 class="text-lg font-bold">Kuis Evaluasi Eksponen (30 Soal)</h1>
+                    <p class="text-xs text-indigo-200">Uji Pemahaman: Angka, Soal Utama & Soal Kompleks</p>
+                </div>
+            </div>
+            <!-- Score & Progress Badge -->
+            <div class="flex items-center gap-4">
+                <div class="bg-indigo-800 px-3 py-1.5 rounded-lg border border-indigo-700 text-xs text-right">
+                    <span class="block text-indigo-300">Terjawab</span>
+                    <span id="progress-text" class="font-bold text-sm text-yellow-300">0 / 30</span>
+                </div>
+                <div class="bg-indigo-800 px-3 py-1.5 rounded-lg border border-indigo-700 text-xs text-right">
+                    <span class="block text-indigo-300">Skor Kamu</span>
+                    <span id="score-text" class="font-bold text-sm text-emerald-400">0 Pts</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        <!-- Sidebar Navigation (Grid 1-30) -->
+        <aside class="lg:col-span-1 bg-white p-5 rounded-2xl shadow-sm border border-slate-200 h-fit space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h2 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-list-ol text-indigo-600"></i> Navigasi Soal
+                </h2>
+                <button onclick="resetAllProgress()" class="text-xs text-rose-600 hover:text-rose-800 font-semibold" title="Reset Semua Jawaban">
+                    <i class="fa-solid fa-rotate-right"></i> Reset
+                </button>
+            </div>
+
+            <!-- Category Info -->
+            <div class="space-y-1 text-xs text-slate-600">
+                <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-500"></span> 1-5: Soal Angka</div>
+                <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-indigo-500"></span> 6-20: Soal Utama</div>
+                <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-purple-500"></span> 21-30: Soal Kompleks</div>
+            </div>
+
+            <!-- Question Numbers Grid -->
+            <div id="nav-grid" class="grid grid-cols-5 gap-2 pt-2">
+                <!-- Javascript will generate 30 buttons here -->
+            </div>
+
+            <div class="pt-3 border-t text-xs text-slate-500 space-y-1">
+                <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-emerald-500"></span> Jawaban Benar</div>
+                <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-rose-500"></span> Jawaban Salah</div>
+                <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-slate-200 border"></span> Belum Diisi</div>
+            </div>
+        </aside>
+
+        <!-- Question Display Area -->
+        <section class="lg:col-span-3 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-6">
+            
+            <div class="space-y-4">
+                <!-- Question Header -->
+                <div class="flex justify-between items-center border-b pb-3">
+                    <span id="question-category" class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase">
+                        Kategori Soal
+                    </span>
+                    <span id="question-number-title" class="text-sm font-extrabold text-slate-700">
+                        Soal 1 dari 30
+                    </span>
+                </div>
+
+                <!-- Question Text -->
+                <div id="question-text" class="text-base font-semibold text-slate-800 leading-relaxed pt-2">
+                    <!-- Text Generated by JS -->
+                </div>
+
+                <!-- Options List -->
+                <div id="options-container" class="space-y-3 pt-2">
+                    <!-- Options Generated by JS -->
+                </div>
+
+                <!-- Instant Feedback Area -->
+                <div id="feedback-box" class="hidden p-4 rounded-xl border space-y-2">
+                    <div id="feedback-status" class="font-bold text-sm flex items-center gap-2"></div>
+                    <div id="feedback-explanation" class="text-xs text-slate-700 leading-relaxed"></div>
+                </div>
+            </div>
+
+            <!-- Bottom Control Buttons -->
+            <div class="flex justify-between items-center border-t pt-4">
+                <button id="prev-btn" onclick="navigateQuestion(-1)" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-4 py-2 rounded-lg text-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Sebelumnya
+                </button>
+                
+                <span class="text-xs text-slate-400 font-medium">Tersimpan Otomatis di Browser</span>
+
+                <button id="next-btn" onclick="navigateQuestion(1)" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg text-sm transition flex items-center gap-2">
+                    Selanjutnya <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-4 text-center text-xs border-t border-slate-800">
+        <p>© Modul Kuis Interaktif Eksponen 30 Soal - Evaluasi Real-Time & Auto-Save</p>
+    </footer>
+
+    <!-- JavaScript Data & Engine -->
+    <script>
+        // 30 Questions Dataset - Corrected & Perfectly Balanced Options (A:7, B:8, C:8, D:7)
+        const questionsData = [
+            // --- KATEGORI 1: 5 SOAL ANGKA (1 - 5) ---
+            {
+                id: 1,
+                category: "Soal Angka",
+                badgeClass: "bg-blue-100 text-blue-800",
+                question: "Berapakah hasil akhir dari perhitungan eksponen berikut: \\( (3^2)^3 \\times (3^{-4}) \\)?",
+                options: [
+                    { label: "A", text: "\\(3\\)", isCorrect: false },
+                    { label: "B", text: "\\(9\\)", isCorrect: true, explanation: "\\((3^2)^3 = 3^6\\). Maka \\(3^6 \\times 3^{-4} = 3^{6 + (-4)} = 3^2 = 9\\)." },
+                    { label: "C", text: "\\(27\\)", isCorrect: false },
+                    { label: "D", text: "\\(1\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 2,
+                category: "Soal Angka",
+                badgeClass: "bg-blue-100 text-blue-800",
+                question: "Hitunglah nilai dari pecahan eksponen berikut: \\( \\frac{4^5 \\times 4^{-2}}{4^3} \\).",
+                options: [
+                    { label: "A", text: "\\(1\\)", isCorrect: true, explanation: "Pembilang: \\(4^{5+(-2)} = 4^3\\). Maka \\(\\frac{4^3}{4^3} = 4^{3-3} = 4^0 = 1\\)." },
+                    { label: "B", text: "\\(4\\)", isCorrect: false },
+                    { label: "C", text: "\\(16\\)", isCorrect: false },
+                    { label: "D", text: "\\(0\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 3,
+                category: "Soal Angka",
+                badgeClass: "bg-blue-100 text-blue-800",
+                question: "Berapa hasil dari \\( 5^0 + (-2)^4 - 3^{-2} \\times 9 \\)?",
+                options: [
+                    { label: "A", text: "\\(18\\)", isCorrect: false },
+                    { label: "B", text: "\\(15\\)", isCorrect: false },
+                    { label: "C", text: "\\(16\\)", isCorrect: true, explanation: "\\(5^0 = 1\\), \\((-2)^4 = 16\\), dan \\(3^{-2} \\times 9 = \\frac{1}{9} \\times 9 = 1\\). Jadi, \\(1 + 16 - 1 = 16\\)." },
+                    { label: "D", text: "\\(-14\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 4,
+                category: "Soal Angka",
+                badgeClass: "bg-blue-100 text-blue-800",
+                question: "Nilai sederhana dari \\( (2^4 \\times 3^2)^2 \\div (2^6 \\times 3^4) \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(2\\)", isCorrect: false },
+                    { label: "B", text: "\\(12\\)", isCorrect: false },
+                    { label: "C", text: "\\(8\\)", isCorrect: false },
+                    { label: "D", text: "\\(4\\)", isCorrect: true, explanation: "Pembilang: \\(2^8 \\times 3^4\\). Penyebut: \\(2^6 \\times 3^4\\). Maka \\(2^{8-6} \\times 3^{4-4} = 2^2 \\times 3^0 = 4 \\times 1 = 4\\)." }
+                ]
+            },
+            {
+                id: 5,
+                category: "Soal Angka",
+                badgeClass: "bg-blue-100 text-blue-800",
+                question: "Berapakah nilai dari \\( \\frac{10^{-3} \\times 10^5}{10^{-1}} \\)?",
+                options: [
+                    { label: "A", text: "\\(100\\)", isCorrect: false },
+                    { label: "B", text: "\\(1.000\\)", isCorrect: true, explanation: "Pembilang: \\(10^{-3+5} = 10^2\\). Maka \\(\\frac{10^2}{10^{-1}} = 10^{2 - (-1)} = 10^3 = 1.000\\)." },
+                    { label: "C", text: "\\(10.000\\)", isCorrect: false },
+                    { label: "D", text: "\\(10\\)", isCorrect: false }
+                ]
+            },
+
+            // --- KATEGORI 2: 15 SOAL UTAMA (6 - 20) ---
+            {
+                id: 6,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Bentuk sederhana dari perkalian \\( (p^4 q^{-3})(p^{-2} q^5) \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(p^6 q^2\\)", isCorrect: false },
+                    { label: "B", text: "\\(p^2 q^2\\)", isCorrect: true, explanation: "Gabungkan pangkat basis sama: \\(p^{4+(-2)} q^{-3+5} = p^2 q^2\\)." },
+                    { label: "C", text: "\\(\\frac{q^2}{p^2}\\)", isCorrect: false },
+                    { label: "D", text: "\\(p^2 q^{-8}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 7,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Sederhanakan pembagian suku berpangkat berikut: \\( \\frac{x^7 y^3}{x^4 y^6} \\).",
+                options: [
+                    { label: "A", text: "\\(x^3 y^3\\)", isCorrect: false },
+                    { label: "B", text: "\\(\\frac{y^3}{x^3}\\)", isCorrect: false },
+                    { label: "C", text: "\\(\\frac{x^3}{y^3}\\)", isCorrect: true, explanation: "Eksponen \\(x\\): \\(7 - 4 = 3\\). Eksponen \\(y\\): \\(3 - 6 = -3\\). Hasilnya \\(x^3 y^{-3} = \\frac{x^3}{y^3}\\)." },
+                    { label: "D", text: "\\(x^{11} y^9\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 8,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Hasil pemangkatan dari suku \\( (3a^3 b^{-2})^3 \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(\\frac{9a^9}{b^6}\\)", isCorrect: false },
+                    { label: "B", text: "\\(27a^6 b^{-5}\\)", isCorrect: false },
+                    { label: "C", text: "\\(27a^9 b^6\\)", isCorrect: false },
+                    { label: "D", text: "\\(\\frac{27a^9}{b^6}\\)", isCorrect: true, explanation: "Kalikan pangkat luar ke semua faktor: \\(3^3 a^{3 \\times 3} b^{-2 \\times 3} = 27 a^9 b^{-6} = \\frac{27a^9}{b^6}\\)." }
+                ]
+            },
+            {
+                id: 9,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Bentuk pangkat positif paling sederhana dari \\( (k^{-4} m^2)^{-2} \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(\\frac{k^8}{m^4}\\)", isCorrect: true, explanation: "Kalikan pangkat: \\(k^{(-4) \\times (-2)} m^{2 \\times (-2)} = k^8 m^{-4} = \\frac{k^8}{m^4}\\)." },
+                    { label: "B", text: "\\(\\frac{m^4}{k^8}\\)", isCorrect: false },
+                    { label: "C", text: "\\(k^6 m^0\\)", isCorrect: false },
+                    { label: "D", text: "\\(\\frac{1}{k^8 m^4}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 10,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Sederhanakan perkalian variabel: \\( (2u^3 v^2)(4u^{-1} v^{-4}) \\).",
+                options: [
+                    { label: "A", text: "\\(6u^2 v^{-2}\\)", isCorrect: false },
+                    { label: "B", text: "\\(\\frac{8u^4}{v^6}\\)", isCorrect: false },
+                    { label: "C", text: "\\(\\frac{8u^2}{v^2}\\)", isCorrect: true, explanation: "Angka: \\(2 \\times 4 = 8\\). Variabel \\(u\\): \\(3+(-1) = 2\\). Variabel \\(v\\): \\(2+(-4) = -2\\). Hasil: \\(\\frac{8u^2}{v^2}\\)." },
+                    { label: "D", text: "\\(8u^{-3} v^{-8}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 11,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Bentuk sederhana dari pecahan \\( \\frac{12x^5 y^{-2}}{3x^2 y^3} \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(4x^3 y^5\\)", isCorrect: false },
+                    { label: "B", text: "\\(\\frac{4x^3}{y^5}\\)", isCorrect: true, explanation: "Angka: \\(12 \\div 3 = 4\\). \\(x\\): \\(5-2 = 3\\). \\(y\\): \\(-2-3 = -5\\). Jadi \\(4 x^3 y^{-5} = \\frac{4x^3}{y^5}\\)." },
+                    { label: "C", text: "\\(\\frac{4x^7}{y}\\)", isCorrect: false },
+                    { label: "D", text: "\\(9x^3 y^{-1}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 12,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Bentuk sederhana dari \\( (a^{-1} b^3 c^{-2})^2 \\) dengan pangkat positif adalah...",
+                options: [
+                    { label: "A", text: "\\(\\frac{a^2 b^6}{c^4}\\)", isCorrect: false },
+                    { label: "B", text: "\\(a^2 b^6 c^4\\)", isCorrect: false },
+                    { label: "C", text: "\\(\\frac{b^6}{a^2 c^4}\\)", isCorrect: true, explanation: "Kalikan semua pangkat dengan 2: \\(a^{-2} b^6 c^{-4} = \\frac{b^6}{a^2 c^4}\\)." },
+                    { label: "D", text: "\\(\\frac{b^5}{a c^0}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 13,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Sederhanakan eksponen bertingkat: \\( \\frac{(m^3 n^2)^3}{m^4 n^5} \\).",
+                options: [
+                    { label: "A", text: "\\(m^2 n\\)", isCorrect: false },
+                    { label: "B", text: "\\(m^{13} n^{11}\\)", isCorrect: false },
+                    { label: "C", text: "\\(\\frac{n}{m^5}\\)", isCorrect: false },
+                    { label: "D", text: "\\(m^5 n\\)", isCorrect: true, explanation: "Pembilang: \\(m^9 n^6\\). Pembagian: \\(m^{9-4} n^{6-5} = m^5 n^1 = m^5 n\\)." }
+                ]
+            },
+            {
+                id: 14,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Hasil dari \\( (5p^2 q^0)^2 \\times (p^{-3} q^4) \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(25p q^4\\)", isCorrect: true, explanation: "\\((5p^2 \\times 1)^2 = 25 p^4\\). Dikali \\(p^{-3} q^4 = 25 p^{4+(-3)} q^4 = 25 p q^4\\)." },
+                    { label: "B", text: "\\(10p q^4\\)", isCorrect: false },
+                    { label: "C", text: "\\(\\frac{25p}{q^4}\\)", isCorrect: false },
+                    { label: "D", text: "\\(25p^7 q^4\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 15,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Sederhanakan bentuk pecahan: \\( \\frac{(2a^{-2} b)^3}{4a^{-4} b^2} \\).",
+                options: [
+                    { label: "A", text: "\\(2a^2 b\\)", isCorrect: false },
+                    { label: "B", text: "\\(\\frac{2b}{a^2}\\)", isCorrect: true, explanation: "Pembilang: \\(8 a^{-6} b^3\\). Penyebut: \\(4 a^{-4} b^2\\). Hasil: \\(\\frac{8}{4} a^{-6 - (-4)} b^{3-2} = 2 a^{-2} b^1 = \\frac{2b}{a^2}\\)." },
+                    { label: "C", text: "\\(\\frac{b}{2a^2}\\)", isCorrect: false },
+                    { label: "D", text: "\\(4a^{-10} b^5\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 16,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Bentuk paling sederhana dari \\( \\frac{r^{-5} s^4}{r^{-2} s^{-1}} \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(\\frac{s^5}{r^3}\\)", isCorrect: true, explanation: "\\(r\\): \\(-5 - (-2) = -3\\). \\(s\\): \\(4 - (-1) = 5\\). Jadi \\(r^{-3} s^5 = \\frac{s^5}{r^3}\\)." },
+                    { label: "B", text: "\\(\\frac{r^3}{s^5}\\)", isCorrect: false },
+                    { label: "C", text: "\\(r^7 s^3\\)", isCorrect: false },
+                    { label: "D", text: "\\(\\frac{1}{r^3 s^3}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 17,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Hasil sederhana dari \\( (x^3 y^{-1})^{-3} \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(\\frac{x^9}{y^3}\\)", isCorrect: false },
+                    { label: "B", text: "\\(x^0 y^2\\)", isCorrect: false },
+                    { label: "C", text: "\\(\\frac{y^3}{x^9}\\)", isCorrect: true, explanation: "Kalikan pangkat: \\(x^{3 \\times (-3)} y^{(-1) \\times (-3)} = x^{-9} y^3 = \\frac{y^3}{x^9}\\)." },
+                    { label: "D", text: "\\(\\frac{1}{x^9 y^3}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 18,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Sederhanakan eksponen gabungan: \\( (2k^4)(3k^{-2})^2 \\).",
+                options: [
+                    { label: "A", text: "\\(18k^2\\)", isCorrect: false },
+                    { label: "B", text: "\\(12k^0\\)", isCorrect: false },
+                    { label: "C", text: "\\(36k^8\\)", isCorrect: false },
+                    { label: "D", text: "\\(18\\)", isCorrect: true, explanation: "\\((3k^{-2})^2 = 9 k^{-4}\\). Maka \\((2k^4)(9k^{-4}) = 18 k^{4+(-4)} = 18 k^0 = 18\\)." }
+                ]
+            },
+            {
+                id: 19,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Sederhanakan pecahan aljabar bertingkat: \\( \\frac{15a^4 b^{-3} c^2}{5a^{-1} b^2 c^2} \\).",
+                options: [
+                    { label: "A", text: "\\(\\frac{3a^5}{b^5}\\)", isCorrect: true, explanation: "Angka: \\(15 \\div 5 = 3\\). \\(a\\): \\(4 - (-1) = 5\\). \\(b\\): \\(-3 - 2 = -5\\). \\(c\\): \\(2-2 = 0\\). Hasil: \\(\\frac{3a^5}{b^5}\\)." },
+                    { label: "B", text: "\\(\\frac{3a^3 c}{b}\\)", isCorrect: false },
+                    { label: "C", text: "\\(3a^3 b^{-1}\\)", isCorrect: false },
+                    { label: "D", text: "\\(\\frac{3a^5 c^4}{b^5}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 20,
+                category: "Soal Utama",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                question: "Bentuk sederhana dari \\( \\left(\\frac{x^2}{y^3}\\right)^{-2} \\times x^5 y^{-1} \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(\\frac{x^9}{y^7}\\)", isCorrect: false },
+                    { label: "B", text: "\\(x y^5\\)", isCorrect: true, explanation: "\\((x^2 y^{-3})^{-2} = x^{-4} y^6\\). Kalikan dengan \\(x^5 y^{-1} = x^{-4+5} y^{6+(-1)} = x^1 y^5 = x y^5\\)." },
+                    { label: "C", text: "\\(x^3 y^{-5}\\)", isCorrect: false },
+                    { label: "D", text: "\\(\\frac{y^5}{x}\\)", isCorrect: false }
+                ]
+            },
+
+            // --- KATEGORI 3: 10 SOAL KOMPLEKS (21 - 30) ---
+            {
+                id: 21,
+                category: "Soal Kompleks",
+                badgeClass: "bg-purple-100 text-purple-800",
+                question: "Sederhanakan bentuk kompleks pecahan eksponen: \\( \\left( \\frac{2a^3 b^{-2}}{4a^{-1} b^4} \\right)^{-2} \\).",
+                options: [
+                    { label: "A", text: "\\(\\frac{a^8}{4b^{12}}\\)", isCorrect: false },
+                    { label: "B", text: "\\(\\frac{2b^6}{a^4}\\)", isCorrect: false },
+                    { label: "C", text: "\\(\\frac{4b^{12}}{a^8}\\)", isCorrect: true, explanation: "Dalam kurung: \\(\\frac{1}{2} a^{3-(-1)} b^{-2-4} = \\frac{a^4 b^{-6}}{2}\\). Dipangkatkan \\(-2\\): \\(\\left(\\frac{a^4 b^{-6}}{2}\\right)^{-2} = \\frac{a^{-8} b^{12}}{2^{-2}} = 4 a^{-8} b^{12} = \\frac{4b^{12}}{a^8}\\)." },
+                    { label: "D", text: "\\(\\frac{b^{12}}{2a^8}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 22,
+                category: "Soal Kompleks",
+                badgeClass: "bg-purple-100 text-purple-800",
+                question: "Bentuk paling sederhana dari \\( \\frac{(3x^2 y^{-1})^2 \\cdot (x^{-3} y^4)}{9x^{-2} y^5} \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(x^3 y^3\\)", isCorrect: false },
+                    { label: "B", text: "\\(\\frac{y^3}{x^3}\\)", isCorrect: false },
+                    { label: "C", text: "\\(9x^{-1} y^{-3}\\)", isCorrect: false },
+                    { label: "D", text: "\\(\\frac{x^3}{y^3}\\)", isCorrect: true, explanation: "Pembilang: \\(9 x^4 y^{-2} \\cdot x^{-3} y^4 = 9 x^1 y^2\\). Bagi penyebut \\(9 x^{-2} y^5\\): \\(\\frac{9}{9} x^{1 - (-2)} y^{2 - 5} = x^3 y^{-3} = \\frac{x^3}{y^3}\\)." }
+                ]
+            },
+            {
+                id: 23,
+                category: "Soal Kompleks",
+                badgeClass: "bg-purple-100 text-purple-800",
+                question: "Sederhanakan ekspresi pecahan berganda: \\( \\frac{(p^{-1} q^2 r^{-3})^{-1}}{(p^2 q^{-3} r)^2} \\).",
+                options: [
+                    { label: "A", text: "\\(\\frac{q^4}{p^3 r}\\)", isCorrect: false },
+                    { label: "B", text: "\\(\\frac{q^4 r}{p^3}\\)", isCorrect: true, explanation: "Pembilang: \\(p^1 q^{-2} r^3\\). Penyebut: \\(p^4 q^{-6} r^2\\). Pembagian: \\(p^{1-4} q^{-2-(-6)} r^{3-2} = p^{-3} q^4 r^1 = \\frac{q^4 r}{p^3}\\)." },
+                    { label: "C", text: "\\(p^3 q^4 r^5\\)", isCorrect: false },
+                    { label: "D", text: "\\(\\frac{p^5}{q^8 r^5}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 24,
+                category: "Soal Kompleks",
+                badgeClass: "bg-purple-100 text-purple-800",
+                question: "Hasil sederhana dari \\( \\left( \\frac{16 x^{-4} y^3}{2 x^2 y^{-5}} \\right)^{-1/3} \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(\\frac{x^2}{2y^{8/3}}\\)", isCorrect: true, explanation: "Dalam kurung: \\(8 x^{-6} y^8\\). Pangkat \\(-1/3\\): \\(8^{-1/3} x^{(-6)(-1/3)} y^{(8)(-1/3)} = \\frac{1}{2} x^2 y^{-8/3} = \\frac{x^2}{2y^{8/3}}\\)." },
+                    { label: "B", text: "\\(\\frac{2y^{8/3}}{x^2}\\)", isCorrect: false },
+                    { label: "C", text: "\\(4x^2 y^{-2}\\)", isCorrect: false },
+                    { label: "D", text: "\\(\\frac{x^6}{8y^8}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 25,
+                category: "Soal Kompleks",
+                badgeClass: "bg-purple-100 text-purple-800",
+                question: "Bentuk sederhana dari pecahan aljabar bertingkat dua: \\( \\frac{(a^2 b^{-3})^3 \\cdot (a^{-1} b^2)^{-2}}{(a^{-3} b^4)^{-1}} \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(a^{11} b^{-17}\\)", isCorrect: false },
+                    { label: "B", text: "\\(\\frac{b^9}{a^5}\\)", isCorrect: false },
+                    { label: "C", text: "\\(\\frac{a^5}{b^9}\\)", isCorrect: true, explanation: "Pembilang: \\((a^6 b^{-9}) \\cdot (a^2 b^{-4}) = a^8 b^{-13}\\). Penyebut: \\(a^3 b^{-4}\\). Pembagian: \\(a^{8-3} b^{-13 - (-4)} = a^5 b^{-9} = \\frac{a^5}{b^9}\\)." },
+                    { label: "D", text: "\\(a^5 b^9\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 26,
+                category: "Soal Kompleks",
+                badgeClass: "bg-purple-100 text-purple-800",
+                question: "Sederhanakan bentuk berpangkat campuran berikut: \\( \\frac{5(u^{-2} v^3)^2 + 3(u^{-4} v^6)}{2 u^{-4} v^6} \\).",
+                options: [
+                    { label: "A", text: "\\(8\\)", isCorrect: false },
+                    { label: "B", text: "\\(4 u^{-8} v^{12}\\)", isCorrect: false },
+                    { label: "C", text: "\\(2\\)", isCorrect: false },
+                    { label: "D", text: "\\(4\\)", isCorrect: true, explanation: "Pembilang: \\(5(u^{-4} v^6) + 3(u^{-4} v^6) = 8(u^{-4} v^6)\\). Bagi penyebut \\(2(u^{-4} v^6)\\): \\(\\frac{8}{2} = 4\\)." }
+                ]
+            },
+            {
+                id: 27,
+                category: "Soal Kompleks",
+                badgeClass: "bg-purple-100 text-purple-800",
+                question: "Bentuk sederhana dari \\( \\left( \\frac{x^3 y^{-2} z}{x^{-1} y^2 z^{-3}} \\right)^{-2} \\) dengan pangkat positif adalah...",
+                options: [
+                    { label: "A", text: "\\(\\frac{y^8}{x^8 z^8}\\)", isCorrect: true, explanation: "Dalam kurung: \\(x^{3-(-1)} y^{-2-2} z^{1-(-3)} = x^4 y^{-4} z^4\\). Dipangkatkan \\(-2\\): \\(x^{-8} y^8 z^{-8} = \\frac{y^8}{x^8 z^8}\\)." },
+                    { label: "B", text: "\\(\\frac{x^8 z^8}{y^8}\\)", isCorrect: false },
+                    { label: "C", text: "\\(x^{-4} y^0 z^{-4}\\)", isCorrect: false },
+                    { label: "D", text: "\\(\\frac{y^4}{x^4 z^4}\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 28,
+                category: "Soal Kompleks",
+                badgeClass: "bg-purple-100 text-purple-800",
+                question: "Sederhanakan eksponen pecahan aljabar: \\( \\frac{(27 k^6 m^{-3})^{1/3}}{(4 k^{-4} m^2)^{-1/2}} \\).",
+                options: [
+                    { label: "A", text: "\\(\\frac{6m^2}{k}\\)", isCorrect: false },
+                    { label: "B", text: "\\(6\\)", isCorrect: true, explanation: "Pembilang: \\(27^{1/3} k^{6/3} m^{-3/3} = 3 k^2 m^{-1}\\). Penyebut: \\(4^{-1/2} k^{(-4)(-1/2)} m^{(2)(-1/2)} = \\frac{1}{2} k^2 m^{-1}\\). Pembagian: \\(\\frac{3}{1/2} k^{2-2} m^{-1 - (-1)} = 6 k^0 m^0 = 6\\)." },
+                    { label: "C", text: "\\(\\frac{6}{k m}\\)", isCorrect: false },
+                    { label: "D", text: "\\(6 k m^2\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 29,
+                category: "Soal Kompleks",
+                badgeClass: "bg-purple-100 text-purple-800",
+                question: "Sederhanakan ekspresi pecahan berpangkat negatif: \\( \\frac{a^{-1} + b^{-1}}{(a b)^{-1}} \\).",
+                options: [
+                    { label: "A", text: "\\(\\frac{1}{a+b}\\)", isCorrect: false },
+                    { label: "B", text: "\\(a b\\)", isCorrect: false },
+                    { label: "C", text: "\\(a + b\\)", isCorrect: true, explanation: "Pembilang: \\(\\frac{1}{a} + \\frac{1}{b} = \\frac{b+a}{ab}\\). Penyebut: \\(\\frac{1}{ab}\\). Pembagian: \\(\\frac{a+b}{ab} \\div \\frac{1}{ab} = a+b\\)." },
+                    { label: "D", text: "\\(1\\)", isCorrect: false }
+                ]
+            },
+            {
+                id: 30,
+                category: "Soal Kompleks",
+                badgeClass: "bg-purple-100 text-purple-800",
+                question: "Bentuk sederhana dari \\( \\left( \\frac{3p^{-3} q^2}{p^2 q^{-1}} \\right)^2 \\div \\left( \\frac{9p^{-5} q}{p q^{-2}} \\right) \\) adalah...",
+                options: [
+                    { label: "A", text: "\\(\\frac{p^4}{q^3}\\)", isCorrect: false },
+                    { label: "B", text: "\\(p^4 q^3\\)", isCorrect: false },
+                    { label: "C", text: "\\(9p^{-4} q^3\\)", isCorrect: false },
+                    { label: "D", text: "\\(\\frac{q^3}{p^4}\\)", isCorrect: true, explanation: "Bagian 1: \\(\\left(3 p^{-5} q^3\\right)^2 = 9 p^{-10} q^6\\). Bagian 2: \\(9 p^{-6} q^3\\). Pembagian: \\(\\frac{9 p^{-10} q^6}{9 p^{-6} q^3} = p^{-10 - (-6)} q^{6-3} = p^{-4} q^3 = \\frac{q^3}{p^4}\\)." }
+                ]
+            }
+        ];
+
+        // State Management
+        let currentQuestionIndex = 0;
+        let userAnswers = {}; // Format: { questionId: { optionIndex: 0, isCorrect: true/false } }
+
+        // LocalStorage Keys
+        const STORAGE_KEY = "EXPO_QUIZ_ANSWERS_V1";
+
+        // Initialization
+        window.onload = function() {
+            loadSavedAnswers();
+            renderNavGrid();
+            loadQuestion(currentQuestionIndex);
+        };
+
+        // Load saved state from LocalStorage
+        function loadSavedAnswers() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    userAnswers = JSON.parse(saved);
+                } catch (e) {
+                    userAnswers = {};
+                }
+            }
+            updateHeaderStats();
+        }
+
+        // Render Nav Grid (1-30 Buttons)
+        function renderNavGrid() {
+            const grid = document.getElementById("nav-grid");
+            grid.innerHTML = "";
+
+            questionsData.forEach((q, idx) => {
+                const btn = document.createElement("button");
+                btn.id = `nav-btn-${idx}`;
+                btn.innerText = idx + 1;
+                btn.className = "nav-btn p-2 rounded-lg text-xs font-bold border transition flex items-center justify-center bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200";
+
+                // Category colors hint
+                if (idx < 5) btn.classList.add("border-l-4", "border-l-blue-500");
+                else if (idx < 20) btn.classList.add("border-l-4", "border-l-indigo-500");
+                else btn.classList.add("border-l-4", "border-l-purple-500");
+
+                // Check answered status
+                if (userAnswers[q.id] !== undefined) {
+                    if (userAnswers[q.id].isCorrect) {
+                        btn.classList.add("answered-correct");
+                    } else {
+                        btn.classList.add("answered-wrong");
+                    }
+                }
+
+                btn.onclick = () => jumpToQuestion(idx);
+                grid.appendChild(btn);
+            });
+        }
+
+        // Load Specific Question
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            const q = questionsData[index];
+
+            // Update Titles & Category Badges
+            const catBadge = document.getElementById("question-category");
+            catBadge.className = `text-xs font-bold px-3 py-1 rounded-full uppercase ${q.badgeClass}`;
+            catBadge.innerText = q.category;
+
+            document.getElementById("question-number-title").innerText = `Soal ${index + 1} dari 30`;
+            document.getElementById("question-text").innerHTML = q.question;
+
+            // Render Options
+            const container = document.getElementById("options-container");
+            container.innerHTML = "";
+
+            const isAnswered = userAnswers[q.id] !== undefined;
+            const selectedOptIdx = isAnswered ? userAnswers[q.id].optionIndex : null;
+
+            q.options.forEach((opt, optIdx) => {
+                const optBtn = document.createElement("button");
+                optBtn.className = `w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 transition text-sm flex justify-between items-center bg-white`;
+
+                if (isAnswered) {
+                    optBtn.disabled = true; // Lock options once answered
+                    if (opt.isCorrect) {
+                        optBtn.classList.add("border-emerald-500", "bg-emerald-50", "text-emerald-900", "font-semibold");
+                    } else if (selectedOptIdx === optIdx && !opt.isCorrect) {
+                        optBtn.classList.add("border-rose-500", "bg-rose-50", "text-rose-900");
+                    }
+                }
+
+                optBtn.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-full bg-slate-100 border text-slate-700 font-bold text-xs flex items-center justify-center">${opt.label}</span>
+                        <span>${opt.text}</span>
+                    </div>
+                    ${isAnswered && opt.isCorrect ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : ''}
+                    ${isAnswered && selectedOptIdx === optIdx && !opt.isCorrect ? '<i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>' : ''}
+                `;
+
+                optBtn.onclick = () => handleAnswerSelect(q.id, optIdx, opt.isCorrect);
+                container.appendChild(optBtn);
+            });
+
+            // Handle Feedback Box
+            const feedbackBox = document.getElementById("feedback-box");
+            const feedbackStatus = document.getElementById("feedback-status");
+            const feedbackExp = document.getElementById("feedback-explanation");
+
+            if (isAnswered) {
+                feedbackBox.classList.remove("hidden", "bg-emerald-50", "border-emerald-200", "bg-rose-50", "border-rose-200");
+                const correctOpt = q.options.find(o => o.isCorrect);
+
+                if (userAnswers[q.id].isCorrect) {
+                    feedbackBox.classList.add("bg-emerald-50", "border-emerald-200");
+                    feedbackStatus.className = "font-bold text-sm text-emerald-800 flex items-center gap-2";
+                    feedbackStatus.innerHTML = `<i class="fa-solid fa-check-circle"></i> Jawaban Kamu Benar!`;
+                } else {
+                    feedbackBox.classList.add("bg-rose-50", "border-rose-200");
+                    feedbackStatus.className = "font-bold text-sm text-rose-800 flex items-center gap-2";
+                    feedbackStatus.innerHTML = `<i class="fa-solid fa-times-circle"></i> Jawaban Kurang Tepat`;
+                }
+
+                feedbackExp.innerHTML = `<strong>Pembahasan:</strong> ${correctOpt.explanation || "Gunakan sifat dasar perkalian/pembagian basis sama."}`;
+            } else {
+                feedbackBox.classList.add("hidden");
+            }
+
+            // Update Active Class on Nav Buttons
+            document.querySelectorAll(".nav-btn").forEach((btn, i) => {
+                if (i === index) btn.classList.add("active-question", "ring-2", "ring-indigo-600");
+                else btn.classList.remove("active-question", "ring-2", "ring-indigo-600");
+            });
+
+            // Update Next / Prev buttons
+            document.getElementById("prev-btn").disabled = index === 0;
+            document.getElementById("prev-btn").style.opacity = index === 0 ? "0.5" : "1";
+            
+            const nextBtn = document.getElementById("next-btn");
+            if (index === questionsData.length - 1) {
+                nextBtn.innerText = "Selesai Kuis";
+                nextBtn.onclick = () => alert(`Kuis Selesai! Skor Akhir Kamu: ${calculateScore()} / 300`);
+            } else {
+                nextBtn.innerHTML = `Selanjutnya <i class="fa-solid fa-arrow-right"></i>`;
+                nextBtn.onclick = () => navigateQuestion(1);
+            }
+
+            // Typeset LaTeX
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // Answer Selection Event
+        function handleAnswerSelect(questionId, optionIndex, isCorrect) {
+            userAnswers[questionId] = { optionIndex, isCorrect };
+
+            // Save to localStorage immediately
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(userAnswers));
+
+            // Update Header & Nav Grid UI
+            updateHeaderStats();
+            renderNavGrid();
+
+            // Re-render current question view to show feedback & locked state
+            loadQuestion(currentQuestionIndex);
+        }
+
+        // Navigation controls
+        function navigateQuestion(direction) {
+            const newIndex = currentQuestionIndex + direction;
+            if (newIndex >= 0 && newIndex < questionsData.length) {
+                loadQuestion(newIndex);
+            }
+        }
+
+        function jumpToQuestion(index) {
+            loadQuestion(index);
+        }
+
+        // Calculate Stats
+        function calculateScore() {
+            let correctCount = 0;
+            Object.values(userAnswers).forEach(ans => {
+                if (ans.isCorrect) correctCount++;
+            });
+            return correctCount * 10; // 10 points per question
+        }
+
+        function updateHeaderStats() {
+            const totalAnswered = Object.keys(userAnswers).length;
+            const score = calculateScore();
+
+            document.getElementById("progress-text").innerText = `${totalAnswered} / 30`;
+            document.getElementById("score-text").innerText = `${score} Pts`;
+        }
+
+        // Reset progress
+        function resetAllProgress() {
+            if (confirm("Apakah kamu yakin ingin menghapus semua jawaban dan mengulang kuis dari awal?")) {
+                localStorage.removeItem(STORAGE_KEY);
+                userAnswers = {};
+                updateHeaderStats();
+                renderNavGrid();
+                loadQuestion(0);
+            }
+        }
+    </script>
+</body>
+</html>
